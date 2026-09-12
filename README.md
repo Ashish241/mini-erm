@@ -61,6 +61,21 @@ To run tests in watch mode during development:
 npm run test:watch
 ```
 
+## Database Schema & ER Diagram
+
+The database is built on PostgreSQL using Prisma ORM. An interactive Mermaid ER diagram mapping out all tables, relationships, and cardinalities is available at:
+👉 **[docs/erd.md](docs/erd.md)**
+
+### Schema Overview
+
+| Domain | Models | Description |
+|--------|--------|-------------|
+| **Core** | `User`, `Location`, `Category`, `Item`, `Batch` | Foundational reference data. `User` supports RBAC (`ADMIN`, `OPERATIONS`, `SALES`). `Location` and `Item` form the basis of all inventory tracking. |
+| **Inventory** | `Inventory`, `InventoryTransaction` | Real-time stock levels. `Inventory` uniquely tracks physical and reserved quantities by `[itemId, locationId, batchId]`. `InventoryTransaction` serves as an immutable, append-only audit log. |
+| **Manufacturing** | `WorkOrder`, `WorkOrderMaterial` | Tracks production. Deducts required `WorkOrderMaterial` items and increases stock of the target `Item` upon completion. |
+| **Logistics** | `Transfer` | Two-step warehouse-to-warehouse transfers (`DISPATCHED` → `RECEIVED`) to prevent stock anomalies in transit. |
+| **Sales** | `CustomerOrder`, `CustomerOrderItem` | External orders. Uses explicit stock reservation to safely lock and reserve inventory before final deduction. |
+
 ## Customer Orders & Stock Reservation
 
 The Customer Orders module implements a highly robust, concurrency-safe reservation architecture to prevent race conditions and overselling stock.
