@@ -1,0 +1,207 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  ADMIN
+  OPERATIONS
+  SALES
+}
+
+enum WorkOrderStatus {
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum TransferStatus {
+  REQUESTED
+  DISPATCHED
+  RECEIVED
+}
+
+enum OrderStatus {
+  CREATED
+  RESERVED
+  COMPLETED
+  CANCELLED
+}
+
+enum InventoryTransactionType {
+  INBOUND
+  OUTBOUND
+  RESERVATION
+  RELEASE
+  TRANSFER_OUT
+  TRANSFER_IN
+  ADJUSTMENT
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         UserRole
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  workOrders     WorkOrder[]
+  customerOrders CustomerOrder[]
+  transactions   InventoryTransaction[]
+}
+
+model Category {
+  id    String @id @default(uuid())
+  name  String @unique
+  items Item[]
+}
+
+model Item {
+  id         String   @id @default(uuid())
+  name       String
+  sku        String   @unique
+  categoryId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  category           Category            @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  batches            Batch[]
+  inventory          Inventory[]
+  workOrders         WorkOrder[]
+  workOrderMaterials WorkOrderMaterial[]
+  transfers          Transfer[]
+  customerOrderItems CustomerOrderItem[]
+}
+
+model Location {
+  id   String @id @default(uuid())
+  name String
+  code String @unique
+
+  inventory              Inventory[]
+  workOrders             WorkOrder[]
+  transfersAsSource      Transfer[]          @relation("SourceLocation")
+  transfersAsDestination Transfer[]          @relation("DestinationLocation")
+  customerOrderItems     CustomerOrderItem[]
+}
+
+model Batch {
+  id          String   @id @default(uuid())
+  batchNumber String
+  itemId      String
+  createdAt   DateTime @default(now())
+
+  item      Item        @relation(fields: [itemId], references: [id], onDelete: Restrict)
+  inventory Inventory[]
+
+  @@unique([itemId, batchNumber])
+}
+
+model Inventory {
+  id               String   @id @default(uuid())
+  itemId           String
+  locationId       String
+  batchId          String?
+  physicalQuantity Int      @default(0)
+  reservedQuantity Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  item     Item     @relation(fields: [itemId], references: [id], onDelete: Restrict)
+  location Location @relation(fields: [locationId], references: [id], onDelete: Restrict)
+  batch    Batch?   @relation(fields: [batchId], references: [id], onDelete: Restrict)
+
+  transactions InventoryTransaction[]
+
+  @@unique([itemId, locationId, batchId])
+}
+
+model WorkOrder {
+  id               String          @id @default(uuid())
+  workOrderNumber  String          @unique
+  locationId       String
+  itemId           String
+  requiredQuantity Int
+  assignedUserId   String?
+  status           WorkOrderStatus @default(ASSIGNED)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  location     Location            @relation(fields: [locationId], references: [id], onDelete: Restrict)
+  item         Item                @relation(fields: [itemId], references: [id], onDelete: Restrict)
+  assignedUser User?               @relation(fields: [assignedUserId], references: [id], onDelete: SetNull)
+  materials    WorkOrderMaterial[]
+}
+
+model WorkOrderMaterial {
+  id               String @id @default(uuid())
+  workOrderId      String
+  itemId           String
+  requiredQuantity Int
+
+  workOrder WorkOrder @relation(fields: [workOrderId], references: [id], onDelete: Cascade)
+  item      Item      @relation(fields: [itemId], references: [id], onDelete: Restrict)
+}
+
+model Transfer {
+  id                    String         @id @default(uuid())
+  transferNumber        String         @unique
+  sourceLocationId      String
+  destinationLocationId String
+  itemId                String
+  quantity              Int
+  status                TransferStatus @default(REQUESTED)
+  dispatchedAt          DateTime?
+  receivedAt            DateTime?
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+
+  sourceLocation      Location @relation("SourceLocation", fields: [sourceLocationId], references: [id], onDelete: Restrict)
+  destinationLocation Location @relation("DestinationLocation", fields: [destinationLocationId], references: [id], onDelete: Restrict)
+  item                Item     @relation(fields: [itemId], references: [id], onDelete: Restrict)
+}
+
+model CustomerOrder {
+  id          String      @id @default(uuid())
+  orderNumber String      @unique
+  createdById String
+  status      OrderStatus @default(CREATED)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  createdBy User                @relation(fields: [createdById], references: [id], onDelete: Restrict)
+  items     CustomerOrderItem[]
+}
+
+model CustomerOrderItem {
+  id               String @id @default(uuid())
+  orderId          String
+  itemId           String
+  locationId       String
+  quantity         Int
+  reservedQuantity Int    @default(0)
+
+  order    CustomerOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  item     Item          @relation(fields: [itemId], references: [id], onDelete: Restrict)
+  location Location      @relation(fields: [locationId], references: [id], onDelete: Restrict)
+}
+
+model InventoryTransaction {
+  id            String                   @id @default(uuid())
+  inventoryId   String
+  type          InventoryTransactionType
+  quantity      Int
+  referenceType String?
+  referenceId   String?
+  createdById   String
+  createdAt     DateTime                 @default(now())
+
+  inventory Inventory @relation(fields: [inventoryId], references: [id], onDelete: Restrict)
+  createdBy User      @relation(fields: [createdById], references: [id], onDelete: Restrict)
+}
