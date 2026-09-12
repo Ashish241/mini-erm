@@ -2,6 +2,7 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import request from 'supertest';
 import { app } from '../src/index';
 import { prisma } from '../src/config/database';
+import { execSync } from 'child_process';
 
 const VALID_PASSWORD = 'password123';
 
@@ -20,6 +21,7 @@ let loc2Id: string;
 const createdWorkOrderIds: string[] = [];
 
 beforeAll(async () => {
+  execSync('npx tsx prisma/seed.ts', { stdio: 'ignore' });
   // Obtain tokens and user IDs
   const [adminRes, opsRes, salesRes] = await Promise.all([
     request(app).post('/api/auth/login').send({ email: 'admin@erp.com', password: VALID_PASSWORD }),

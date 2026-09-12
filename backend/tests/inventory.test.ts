@@ -2,6 +2,7 @@ import { describe, it, expect, beforeAll, afterAll, afterEach } from 'vitest';
 import request from 'supertest';
 import { app } from '../src/index';
 import { prisma } from '../src/config/database';
+import { execSync } from 'child_process';
 
 const ADMIN_EMAIL = 'admin@erp.com';
 const OPS_EMAIL = 'ops@erp.com';
@@ -22,7 +23,7 @@ let seededInventoryId: string; // the one created by seed (batched)
 const createdInventoryIds: string[] = [];
 
 beforeAll(async () => {
-  // Obtain tokens
+  execSync('npx tsx prisma/seed.ts', { stdio: 'ignore' });
   const [adminRes, opsRes, salesRes] = await Promise.all([
     request(app).post('/api/auth/login').send({ email: ADMIN_EMAIL, password: VALID_PASSWORD }),
     request(app).post('/api/auth/login').send({ email: OPS_EMAIL, password: VALID_PASSWORD }),

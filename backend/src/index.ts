@@ -6,6 +6,7 @@ import authRoutes from './modules/auth/auth.routes';
 import inventoryRoutes from './modules/inventory/inventory.routes';
 import workOrderRoutes from './modules/work-orders/workOrder.routes';
 import transferRoutes from './modules/transfers/transfer.routes';
+import orderRoutes from './modules/orders/order.routes';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/work-orders', workOrderRoutes);
 app.use('/api/transfers', transferRoutes);
+app.use('/api/orders', orderRoutes);
 
 // ─── Health check ──────────────────────────────────────────────────────────
 app.get('/health', async (req: Request, res: Response) => {

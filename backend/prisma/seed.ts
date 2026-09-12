@@ -8,7 +8,16 @@ async function main() {
 
   // 1. Create Users
   const passwordHash = await bcrypt.hash('password123', 10);
-  
+
+  if (process.env.NODE_ENV === 'test') {
+    await prisma.inventoryTransaction.deleteMany();
+    await prisma.customerOrderItem.deleteMany();
+    await prisma.customerOrder.deleteMany();
+    await prisma.transfer.deleteMany();
+    await prisma.workOrder.deleteMany();
+    await prisma.inventory.deleteMany();
+  }
+
   const adminUser = await prisma.user.upsert({
     where: { email: 'admin@erp.com' },
     update: {},

@@ -27,3 +27,34 @@ Inventory → Work Order → Material Stock Check → Internal Transfer/Shortage
    npx prisma db seed
    ```
 6. Run `npm run dev` from the root to start both frontend and backend development servers.
+
+## Customer Orders & Stock Reservation
+
+The Customer Orders module implements a highly robust, concurrency-safe reservation architecture to prevent race conditions and overselling stock.
+
+### Order Status Lifecycle
+- **`CREATED`**: Order is created with item lines, but no stock is reserved.
+- **`RESERVED`**: Order has successfully reserved stock. It can now be cancelled or completed.
+- **`COMPLETED`**: Order is fulfilled. The originally reserved physical stock is permanently deducted, and audit logs are recorded.
+- **`CANCELLED`**: Order is cancelled. The originally reserved stock is released back to available inventory.
+
+### Reservation Transaction & Locking Strategy
+To safely reserve stock across multiple concurrent requests without deadlocks or race conditions:
+1. **Pessimistic Row-Level Locking**: The reservation process locks the `CustomerOrder` row and ALL affected `Inventory` rows simultaneously using `SELECT ... FOR UPDATE` inside a single Prisma `$transaction`.
+2. **Pre-Flight Availability Check**: The total available quantity (physical - reserved) across all batches is calculated from the *locked* rows. If any item is short on stock, the entire transaction rolls back (`409 Conflict`), ensuring all-or-nothing multi-item reservations.
+3. **Audit Truth**: Stock deductions for cancellation and completion rely strictly on querying the `InventoryTransaction` records of type `RESERVATION` for the order, providing absolute certainty about which batch rows were reserved.
+
+### Batch Allocation Strategy
+When multiple batches of the same item exist at a location, reservations are allocated deterministically using a **FIFO Strategy**:
+- `Inventory` rows are queried and locked with `ORDER BY "itemId" ASC, "locationId" ASC, "createdAt" ASC`.
+- The required reservation amount is greedily allocated to the oldest available batch first.
+- This deterministic ordering also guarantees that concurrent reservations will always lock rows in exactly the same order, completely preventing deadlocks.
+
+### API Endpoints
+All endpoints enforce JWT Authentication.
+- `POST /api/orders` (SALES only): Create a new order.
+- `GET /api/orders` (ADMIN, OPERATIONS, SALES): List orders.
+- `GET /api/orders/:id` (ADMIN, OPERATIONS, SALES): Get order details.
+- `PATCH /api/orders/:id/reserve` (ADMIN, SALES): Lock and reserve stock.
+- `PATCH /api/orders/:id/cancel` (ADMIN, SALES): Release reserved stock.
+- `PATCH /api/orders/:id/complete` (ADMIN, SALES): Finalize order, deduct physical inventory.
