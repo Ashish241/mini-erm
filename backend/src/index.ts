@@ -3,17 +3,18 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { prisma } from './config/database';
 import authRoutes from './modules/auth/auth.routes';
+import inventoryRoutes from './modules/inventory/inventory.routes';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
 
 // ─── Routes ────────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
+app.use('/api/inventory', inventoryRoutes);
 
 // ─── Health check ──────────────────────────────────────────────────────────
 app.get('/health', async (req: Request, res: Response) => {
@@ -42,6 +43,10 @@ app.use((req: Request, res: Response) => {
 
 export { app };
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Only bind to port when this module is the entrypoint (not when imported by tests)
+if (process.env.NODE_ENV !== 'test') {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
