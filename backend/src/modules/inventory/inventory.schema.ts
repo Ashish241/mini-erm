@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const createInventorySchema = z.object({
   itemId: z.string().uuid({ message: 'itemId must be a valid UUID' }),
   locationId: z.string().uuid({ message: 'locationId must be a valid UUID' }),
-  batchId: z.string().uuid({ message: 'batchId must be a valid UUID' }).optional(),
+  batchNumber: z.string().min(1, { message: 'batchNumber cannot be empty' }).optional(),
   physicalQuantity: z
     .number({ invalid_type_error: 'physicalQuantity must be a number' })
     .int({ message: 'physicalQuantity must be an integer' })

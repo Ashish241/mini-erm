@@ -15,7 +15,7 @@ export default function CreateInventoryModal({ isOpen, onClose, onSuccess }: Pro
   
   const [itemId, setItemId] = useState('');
   const [locationId, setLocationId] = useState('');
-  const [batchId, setBatchId] = useState('');
+  const [batchNumber, setBatchNumber] = useState('');
   const [physicalQuantity, setPhysicalQuantity] = useState(0);
   
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,7 +34,7 @@ export default function CreateInventoryModal({ isOpen, onClose, onSuccess }: Pro
       // Reset form
       setItemId('');
       setLocationId('');
-      setBatchId('');
+      setBatchNumber('');
       setPhysicalQuantity(0);
       setError('');
     }
@@ -51,13 +51,18 @@ export default function CreateInventoryModal({ isOpen, onClose, onSuccess }: Pro
       await createInventoryRecord({
         itemId,
         locationId,
-        ...(batchId ? { batchId } : {}),
+        ...(batchNumber ? { batchNumber } : {}),
         physicalQuantity,
       });
       onSuccess();
       onClose();
     } catch (err: any) {
-      if (err.response?.data?.message) {
+      if (err.response?.data?.errors) {
+        // Extract the first error message from the field errors
+        const fieldErrors = err.response.data.errors;
+        const firstErrorKey = Object.keys(fieldErrors)[0];
+        setError(fieldErrors[firstErrorKey][0]);
+      } else if (err.response?.data?.message) {
         setError(err.response.data.message);
       } else {
         setError('Failed to create inventory record.');
@@ -115,12 +120,12 @@ export default function CreateInventoryModal({ isOpen, onClose, onSuccess }: Pro
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-1.5">Batch ID (Optional)</label>
+            <label className="block text-sm font-bold text-slate-700 mb-1.5">Batch Number (Optional)</label>
             <input
               type="text"
-              placeholder="e.g. valid-uuid-string"
-              value={batchId}
-              onChange={e => setBatchId(e.target.value)}
+              placeholder="e.g. BATCH-001"
+              value={batchNumber}
+              onChange={e => setBatchNumber(e.target.value)}
               className="w-full border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 shadow-sm transition-all placeholder:text-slate-300"
             />
           </div>

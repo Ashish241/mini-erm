@@ -9,10 +9,10 @@ import OrderDetailsModal from './OrderDetailsModal';
 export default function CustomerOrdersPage() {
   const { user } = useAuth();
   const [orders, setOrders] = useState<CustomerOrderRecord[]>([]);
-  
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   // Filters
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
@@ -32,15 +32,15 @@ export default function CustomerOrdersPage() {
       if (statusFilter) params.status = statusFilter;
 
       let data = await fetchOrders(params);
-      
+
       if (search) {
         const s = search.toLowerCase();
-        data = data.filter((o: CustomerOrderRecord) => 
-          o.orderNumber.toLowerCase().includes(s) || 
+        data = data.filter((o: CustomerOrderRecord) =>
+          o.orderNumber.toLowerCase().includes(s) ||
           o.createdBy.name.toLowerCase().includes(s)
         );
       }
-      
+
       setOrders(data);
     } catch (err) {
       setError('Failed to load customer orders.');
@@ -85,7 +85,7 @@ export default function CustomerOrdersPage() {
           </h1>
           <p className="text-gray-500 text-sm mt-2 font-medium">Manage external orders and inventory reservation.</p>
         </div>
-        
+
         <div className="flex space-x-3">
           <button
             onClick={loadData}
@@ -94,7 +94,7 @@ export default function CustomerOrdersPage() {
             <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
             Refresh
           </button>
-          
+
           {canCreate && (
             <button
               onClick={() => setIsCreateOpen(true)}
@@ -238,15 +238,15 @@ export default function CustomerOrdersPage() {
         </div>
       </div>
 
-      <CreateOrderModal 
-        isOpen={isCreateOpen} 
-        onClose={() => setIsCreateOpen(false)} 
-        onSuccess={loadData} 
+      <CreateOrderModal
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+        onSuccess={loadData}
       />
-      
-      <OrderDetailsModal 
-        order={detailsRecord} 
-        onClose={() => setDetailsRecord(null)} 
+
+      <OrderDetailsModal
+        order={detailsRecord}
+        onClose={() => setDetailsRecord(null)}
         onSuccess={loadData}
       />
     </div>

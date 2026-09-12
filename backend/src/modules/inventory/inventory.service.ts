@@ -75,7 +75,7 @@ export async function createInventory(
   input: CreateInventoryInput,
   createdById: string
 ) {
-  const { itemId, locationId, batchId, physicalQuantity } = input;
+  const { itemId, locationId, batchNumber, physicalQuantity } = input;
 
   // Verify referenced records exist
   const item = await prisma.item.findUnique({ where: { id: itemId } });
@@ -84,43 +84,42 @@ export async function createInventory(
   const location = await prisma.location.findUnique({ where: { id: locationId } });
   if (!location) throw Object.assign(new Error('Location not found'), { code: 'NOT_FOUND' });
 
-  if (batchId) {
-    const batch = await prisma.batch.findUnique({ where: { id: batchId } });
-    if (!batch) throw Object.assign(new Error('Batch not found'), { code: 'NOT_FOUND' });
-    if (batch.itemId !== itemId)
-      throw Object.assign(
-        new Error('Batch does not belong to the specified item'),
-        { code: 'CONFLICT' }
-      );
-  }
-
-  // Check for duplicate — the unique constraint handles the batchId != null case.
-  // For batchId = null, Postgres unique index allows duplicates (NULL != NULL),
-  // so we explicitly check in application code.
-  const existing = await prisma.inventory.findFirst({
-    where: {
-      itemId,
-      locationId,
-      batchId: batchId ?? null,
-    },
-  });
-
-  if (existing) {
-    throw Object.assign(
-      new Error(
-        'Inventory record already exists for this item/location/batch combination. Use the adjust endpoint instead.'
-      ),
-      { code: 'CONFLICT' }
-    );
-  }
-
   // Wrap creation + audit transaction in a Prisma transaction
   const result = await prisma.$transaction(async (tx) => {
+    let finalBatchId = null;
+
+    if (batchNumber) {
+      const batch = await tx.batch.upsert({
+        where: { itemId_batchNumber: { itemId, batchNumber } },
+        update: {},
+        create: { itemId, batchNumber },
+      });
+      finalBatchId = batch.id;
+    }
+
+    // Check for duplicate inside the transaction
+    const existing = await tx.inventory.findFirst({
+      where: {
+        itemId,
+        locationId,
+        batchId: finalBatchId,
+      },
+    });
+
+    if (existing) {
+      throw Object.assign(
+        new Error(
+          'Inventory record already exists for this item/location/batch combination. Use the adjust endpoint instead.'
+        ),
+        { code: 'CONFLICT' }
+      );
+    }
+
     const inventory = await tx.inventory.create({
       data: {
         itemId,
         locationId,
-        batchId: batchId ?? null,
+        batchId: finalBatchId,
         physicalQuantity,
         reservedQuantity: 0,
       },
