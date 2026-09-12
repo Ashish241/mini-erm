@@ -1,42 +1,64 @@
+import type { ReactNode } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import AppLayout from './components/layout/AppLayout';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 
+// Helper component to redirect authenticated users away from Login
+function PublicRoute({ children }: { children: ReactNode }) {
+  const { isAuthenticated, isLoading } = useAuth();
+  if (isLoading) return null;
+  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
+  return <>{children}</>;
+}
+
+// Placeholder for unbuilt modules
+function PlaceholderModule({ title }: { title: string }) {
+  return (
+    <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center h-96">
+      <h2 className="text-2xl font-bold text-gray-900 mb-2">{title}</h2>
+      <p className="text-gray-500">This module is scheduled for implementation in Phase 2.</p>
+    </div>
+  );
+}
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-      <div className="max-w-3xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
-        <div className="bg-blue-600 p-8 text-center">
-          <h1 className="text-4xl font-bold text-white mb-2">Mini Operations ERP</h1>
-          <p className="text-blue-100">Production-oriented Operations Management System</p>
-        </div>
-        
-        <div className="p-8">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6 border-b pb-2">Business Modules</h2>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public Routes */}
+          <Route 
+            path="/login" 
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            } 
+          />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {['Inventory', 'Work Orders', 'Material Stock Check', 'Internal Transfers', 'Customer Orders'].map((module, idx) => (
-              <div key={idx} className="p-4 border rounded-lg hover:border-blue-500 hover:shadow-md transition-all cursor-pointer bg-gray-50">
-                <div className="flex items-center space-x-3">
-                  <div className="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
-                    {idx + 1}
-                  </div>
-                  <span className="font-medium text-gray-700">{module}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+          {/* Default redirect to login or dashboard */}
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-          <div className="mt-8 flex justify-center space-x-4">
-            <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
-              Login
-            </button>
-            <button className="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">
-              API Documentation
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+          {/* Protected Routes inside AppLayout */}
+          <Route element={<ProtectedRoute />}>
+            <Route element={<AppLayout />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/inventory" element={<PlaceholderModule title="Inventory Management" />} />
+              <Route path="/work-orders" element={<PlaceholderModule title="Work Orders" />} />
+              <Route path="/transfers" element={<PlaceholderModule title="Internal Transfers" />} />
+              <Route path="/orders" element={<PlaceholderModule title="Customer Orders" />} />
+            </Route>
+          </Route>
+
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
