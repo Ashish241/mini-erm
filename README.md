@@ -6,28 +6,60 @@ A full-stack technical case study for an Operations ERP system.
 Inventory → Work Order → Material Stock Check → Internal Transfer/Shortage → Customer Order Reservation
 
 ## Tech Stack
-- **Frontend**: React, TypeScript, Vite, Tailwind CSS
+- **Frontend**: React, TypeScript, Vite, Tailwind CSS (v4)
 - **Backend**: Node.js, Express, TypeScript, Prisma ORM, PostgreSQL
 - **Testing**: Vitest, Supertest
 
-## Getting Started
+## Project Setup & How to Run
 
-1. Clone the repository.
-2. Run `npm install` at the root to install all dependencies.
-3. Update `.env` in the `backend` directory with your PostgreSQL connection URL. Make sure the database name is `mini_erp` (e.g. `postgresql://postgres:root@localhost:5432/mini_erp?schema=public`).
-4. In the `backend` directory, initialize the database and run migrations:
-   ```bash
-   cd backend
-   npx prisma db push --accept-data-loss
-   npx prisma db execute --file prisma/migrations/20240101000001_unbatched_unique/migration.sql
-   npm run prisma:generate
-   ```
-5. Seed the database with initial users and inventory:
-   ```bash
-   npx prisma db seed
-   ```
-6. Run `npm run dev` from the root to start both frontend and backend development servers.
-7. Access the **API Documentation (Swagger UI)** at `http://localhost:3000/api-docs`.
+### 1. Project Setup
+Clone the repository and install all dependencies for both frontend and backend from the root:
+```bash
+npm install
+```
+
+### 2. Environment Variables
+Create a `.env` file in the `backend` directory. You can copy the provided `.env.example` file.
+You must set your PostgreSQL connection string.
+```env
+DATABASE_URL="postgresql://postgres:root@localhost:5432/mini_erp?schema=public"
+JWT_SECRET="super-secret-jwt-key"
+```
+
+### 3. Database Setup
+In the `backend` directory, initialize the database and run migrations to create the tables. If you are using a fresh/empty database, you can simply push the schema:
+```bash
+cd backend
+npx prisma db push
+```
+*(If you need to execute specific migrations locally, run `npx prisma migrate dev` instead).*
+
+Next, seed the database with initial users (admin, ops, sales), locations, categories, and inventory:
+```bash
+npx prisma db seed
+```
+
+### 4. How to Run (Development)
+Run the following command from the **root** of the repository to start both the frontend and backend development servers concurrently:
+```bash
+npm run dev
+```
+- **Frontend**: `http://localhost:5173`
+- **Backend API**: `http://localhost:3001`
+- **Swagger Documentation**: `http://localhost:3001/api-docs`
+
+## How to Test
+The backend uses **Vitest** and **Supertest** for comprehensive integration and unit testing.
+
+To run the backend tests:
+```bash
+cd backend
+npm run test
+```
+To run tests in watch mode during development:
+```bash
+npm run test:watch
+```
 
 ## Customer Orders & Stock Reservation
 
