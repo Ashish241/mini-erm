@@ -26,13 +26,13 @@ export default function UpdateStatusModal({ workOrder, onClose, onSuccess }: Pro
   if (!nextStatus) {
     // If it's completed, we shouldn't even mount the modal, but just in case:
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900 bg-opacity-50">
-        <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 text-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Work Order Completed</h2>
-          <p className="text-gray-600 mb-6">This work order has already been completed and cannot be updated further.</p>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 text-center border border-slate-100">
+          <h2 className="text-xl font-extrabold text-slate-900 mb-4">Work Order Completed</h2>
+          <p className="text-slate-600 mb-6 font-medium">This work order has already been completed and cannot be updated further.</p>
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg font-medium"
+            className="px-5 py-2.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl font-bold transition-all"
           >
             Close
           </button>
@@ -63,34 +63,34 @@ export default function UpdateStatusModal({ workOrder, onClose, onSuccess }: Pro
 
   const getStatusColor = (s: WorkOrderStatus) => {
     switch (s) {
-      case 'ASSIGNED': return 'bg-gray-100 text-gray-800';
-      case 'IN_PROGRESS': return 'bg-yellow-100 text-yellow-800';
-      case 'COMPLETED': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'ASSIGNED': return 'bg-slate-100 text-slate-800 border border-slate-200';
+      case 'IN_PROGRESS': return 'bg-brand-50 text-brand-800 border border-brand-200';
+      case 'COMPLETED': return 'bg-emerald-50 text-emerald-800 border border-emerald-200';
+      default: return 'bg-slate-100 text-slate-800 border border-slate-200';
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900 bg-opacity-50">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div className="flex justify-between items-center p-6 border-b bg-gray-50">
-          <h2 className="text-xl font-bold text-gray-900">Update Status</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-100">
+        <div className="flex justify-between items-center p-6 border-b border-slate-100 bg-slate-50/50">
+          <h2 className="text-xl font-extrabold text-slate-900">Update Status</h2>
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">
             <X className="h-6 w-6" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          <div className="text-center text-sm text-gray-600 mb-4">
-            Are you sure you want to transition Work Order <strong>{workOrder.workOrderNumber}</strong>?
+          <div className="text-center text-sm text-slate-600 mb-4 font-medium">
+            Are you sure you want to transition Work Order <strong className="text-slate-900 bg-slate-100 px-1 py-0.5 rounded">{workOrder.workOrderNumber}</strong>?
           </div>
 
           <div className="flex items-center justify-center space-x-4">
-            <div className={`px-4 py-2 rounded-lg font-bold text-sm ${getStatusColor(workOrder.status)}`}>
+            <div className={`px-4 py-2 rounded-xl font-bold text-sm shadow-sm ${getStatusColor(workOrder.status)}`}>
               {workOrder.status.replace('_', ' ')}
             </div>
-            <ArrowRight className="h-5 w-5 text-gray-400" />
-            <div className={`px-4 py-2 rounded-lg font-bold text-sm ${getStatusColor(nextStatus)}`}>
+            <ArrowRight className="h-6 w-6 text-slate-300" />
+            <div className={`px-4 py-2 rounded-xl font-bold text-sm shadow-sm ${getStatusColor(nextStatus)}`}>
               {nextStatus.replace('_', ' ')}
             </div>
           </div>
@@ -101,18 +101,18 @@ export default function UpdateStatusModal({ workOrder, onClose, onSuccess }: Pro
             </div>
           )}
 
-          <div className="pt-2 flex justify-end space-x-3">
+          <div className="pt-4 flex justify-end space-x-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors"
+              className="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-white bg-yellow-600 hover:bg-yellow-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
+              className="px-5 py-2.5 text-slate-900 bg-brand-500 hover:bg-brand-400 rounded-xl font-bold flex items-center transition-all shadow-sm disabled:opacity-50"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Confirm Transition

@@ -79,17 +79,17 @@ export default function InventoryPage() {
     <div className="space-y-6 max-w-7xl mx-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center">
-            <Package className="h-6 w-6 mr-2 text-yellow-600" />
+          <h1 className="text-2xl font-extrabold text-gray-900 flex items-center tracking-tight">
+            <Package className="h-7 w-7 mr-3 text-brand-500" />
             Inventory Management
           </h1>
-          <p className="text-gray-500 text-sm mt-1">Track and manage material stock across all locations.</p>
+          <p className="text-gray-500 text-sm mt-2 font-medium">Track and manage material stock across all locations.</p>
         </div>
         
         <div className="flex space-x-3">
           <button
             onClick={loadData}
-            className="px-4 py-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg font-medium flex items-center transition-colors"
+            className="px-4 py-2.5 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl font-medium flex items-center transition-all shadow-sm"
           >
             <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
             Refresh
@@ -98,7 +98,7 @@ export default function InventoryPage() {
           {canEdit && (
             <button
               onClick={() => setIsCreateOpen(true)}
-              className="px-4 py-2 bg-yellow-600 text-white hover:bg-yellow-700 rounded-lg font-medium flex items-center transition-colors shadow-sm"
+              className="px-4 py-2.5 bg-brand-500 text-slate-900 hover:bg-brand-400 rounded-xl font-bold flex items-center transition-all shadow-sm"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Inventory
@@ -108,38 +108,38 @@ export default function InventoryPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Total Records</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{totalRecords}</p>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Total Records</p>
+          <p className="text-3xl font-extrabold text-gray-900 mt-2">{totalRecords}</p>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Total Physical Qty</p>
-          <p className="text-2xl font-bold text-yellow-600 mt-1">{totalPhysical.toLocaleString()}</p>
+        <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Total Physical</p>
+          <p className="text-3xl font-extrabold text-brand-600 mt-2">{totalPhysical.toLocaleString()}</p>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Total Reserved Qty</p>
-          <p className="text-2xl font-bold text-orange-600 mt-1">{totalReserved.toLocaleString()}</p>
+        <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Total Reserved</p>
+          <p className="text-3xl font-extrabold text-indigo-600 mt-2">{totalReserved.toLocaleString()}</p>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Total Available Qty</p>
-          <p className="text-2xl font-bold text-green-600 mt-1">{totalAvailable.toLocaleString()}</p>
+        <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Total Available</p>
+          <p className="text-3xl font-extrabold text-emerald-600 mt-2">{totalAvailable.toLocaleString()}</p>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col md:flex-row gap-4">
+      <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex flex-col md:flex-row gap-4">
         <input
           type="text"
           placeholder="Search items or SKUs..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500"
+          className="flex-1 border border-gray-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 shadow-sm transition-all"
         />
         <select
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          className="border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500"
+          className="border border-gray-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 shadow-sm transition-all"
         >
           <option value="">All Categories</option>
           {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -147,14 +147,14 @@ export default function InventoryPage() {
         <select
           value={locationId}
           onChange={(e) => setLocationId(e.target.value)}
-          className="border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500"
+          className="border border-gray-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 shadow-sm transition-all"
         >
           <option value="">All Locations</option>
           {locations.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
         </select>
         <button
           onClick={handleResetFilters}
-          className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors"
+          className="px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl text-sm font-bold transition-colors shadow-sm"
         >
           Clear
         </button>
@@ -169,66 +169,68 @@ export default function InventoryPage() {
       )}
 
       {/* Data Table */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-gray-100">
+            <thead className="bg-gray-50/50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Batch</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Physical</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Reserved</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Available</th>
-                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Item</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Location</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Batch</th>
+                <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Physical</th>
+                <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Reserved</th>
+                <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Available</th>
+                <th className="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-100">
               {isLoading && inventory.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
-                    <Loader2 className="h-8 w-8 animate-spin mx-auto text-yellow-600 mb-2" />
-                    Loading inventory...
+                  <td colSpan={8} className="px-6 py-16 text-center text-gray-500">
+                    <Loader2 className="h-8 w-8 animate-spin mx-auto text-brand-500 mb-4" />
+                    <p className="font-medium text-gray-600">Loading inventory...</p>
                   </td>
                 </tr>
               ) : inventory.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
-                    No inventory records found.
+                  <td colSpan={8} className="px-6 py-16 text-center text-gray-500">
+                    <Package className="h-12 w-12 mx-auto text-gray-300 mb-4" />
+                    <p className="font-medium text-gray-600">No inventory records found.</p>
+                    <p className="text-sm mt-1 text-gray-400">Try adjusting your filters or add new inventory.</p>
                   </td>
                 </tr>
               ) : (
                 inventory.map((row) => (
-                  <tr key={row.id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={row.id} className="hover:bg-slate-50/80 transition-colors group">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{row.item.name}</div>
-                      <div className="text-xs text-gray-500">SKU: {row.item.sku}</div>
-                      {row.item.category && <div className="text-xs text-yellow-600 mt-0.5">{row.item.category.name}</div>}
+                      <div className="text-sm font-bold text-gray-900">{row.item.name}</div>
+                      <div className="text-xs text-gray-500 mt-1 font-mono">SKU: {row.item.sku}</div>
+                      {row.item.category && <div className="text-xs font-medium text-brand-600 mt-1 bg-brand-50 inline-block px-2 py-0.5 rounded-md">{row.item.category.name}</div>}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{row.location.name}</div>
-                      <div className="text-xs text-gray-500">{row.location.code}</div>
+                      <div className="text-sm font-medium text-gray-900">{row.location.name}</div>
+                      <div className="text-xs text-gray-500 mt-1 font-mono bg-gray-100 inline-block px-1.5 py-0.5 rounded">{row.location.code}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900 font-mono text-xs bg-gray-100 px-2 py-1 rounded inline-block">
+                      <div className="text-sm text-gray-900 font-mono text-xs bg-slate-100 border border-slate-200 px-2 py-1 rounded-md inline-block">
                         {row.batch?.batchNumber || 'N/A'}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right font-medium">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 text-right font-medium">
                       {row.physicalQuantity}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right font-medium">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-indigo-600 text-right font-medium">
                       {row.reservedQuantity}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right font-bold">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-emerald-700 text-right font-extrabold">
                       {row.availableQuantity}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                      <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        row.availableQuantity === 0 ? 'bg-red-100 text-red-800' :
-                        row.availableQuantity <= 10 ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-green-100 text-green-800'
+                      <span className={`px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full border ${
+                        row.availableQuantity === 0 ? 'bg-red-50 text-red-700 border-red-200' :
+                        row.availableQuantity <= 10 ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                        'bg-emerald-50 text-emerald-700 border-emerald-200'
                       }`}>
                         {row.availableQuantity === 0 ? 'Zero' : row.availableQuantity <= 10 ? 'Low' : 'Sufficient'}
                       </span>
@@ -236,14 +238,14 @@ export default function InventoryPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
                         onClick={() => setHistoryRecordId(row.id)}
-                        className="text-yellow-600 hover:text-yellow-900 mr-4"
+                        className="text-gray-500 hover:text-brand-600 bg-white border border-gray-200 hover:border-brand-200 px-3 py-1.5 rounded-lg mr-2 transition-all shadow-sm"
                       >
                         History
                       </button>
                       {canEdit && (
                         <button
                           onClick={() => setAdjustRecord(row)}
-                          className="text-yellow-600 hover:text-yellow-900"
+                          className="text-slate-900 bg-brand-400 hover:bg-brand-500 px-3 py-1.5 rounded-lg transition-all shadow-sm font-bold"
                         >
                           Adjust
                         </button>

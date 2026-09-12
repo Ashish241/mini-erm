@@ -43,23 +43,27 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Decorative background blob */}
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-brand-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+      <div className="absolute top-1/2 right-1/4 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+
+      <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
         <div className="flex justify-center">
-          <div className="h-12 w-12 bg-yellow-600 rounded-xl flex items-center justify-center shadow-lg">
-            <Boxes className="text-white h-8 w-8" />
+          <div className="h-14 w-14 bg-brand-500 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-500/30">
+            <Boxes className="text-slate-900 h-8 w-8" />
           </div>
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-900 tracking-tight">
           Mini Operations ERP
         </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
+        <p className="mt-2 text-center text-sm text-slate-500">
           Sign in to access the production management system
         </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-2xl sm:px-10 border border-gray-100">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+        <div className="bg-white py-10 px-4 shadow-xl shadow-slate-200/50 sm:rounded-3xl sm:px-10 border border-slate-100">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-600 rounded-md p-3 text-sm">
@@ -80,13 +84,13 @@ export default function Login() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm transition-colors"
+                  className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-medium text-slate-700">
                 Password
               </label>
               <div className="mt-1 relative">
@@ -98,7 +102,7 @@ export default function Login() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm transition-colors pr-10"
+                  className="appearance-none block w-full px-4 py-3 border border-slate-200 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 sm:text-sm transition-all pr-10"
                 />
                 <button
                   type="button"
@@ -118,7 +122,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-bold text-slate-900 bg-brand-500 hover:bg-brand-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 {isSubmitting ? (
                   <Loader2 className="animate-spin h-5 w-5" />
@@ -129,28 +133,28 @@ export default function Login() {
             </div>
           </form>
 
-          <div className="mt-6">
+            <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200" />
+                <div className="w-full border-t border-slate-200" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Demo Credentials</span>
+                <span className="px-2 bg-white text-slate-500 font-medium">Demo Credentials</span>
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-1 gap-2 text-xs text-gray-600 bg-gray-50 p-4 rounded-lg border border-gray-100">
+            <div className="mt-6 grid grid-cols-1 gap-2 text-xs text-slate-600 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
               <div className="flex justify-between items-center py-1">
-                <span className="font-semibold text-gray-900">Admin:</span>
-                <span className="font-mono bg-white px-2 py-1 rounded shadow-sm border border-gray-200">admin@erp.com / password123</span>
+                <span className="font-semibold text-slate-900">Admin:</span>
+                <span className="font-mono bg-white px-2 py-1 rounded-md shadow-sm border border-slate-200">admin@erp.com / password123</span>
               </div>
               <div className="flex justify-between items-center py-1">
-                <span className="font-semibold text-gray-900">Operations:</span>
-                <span className="font-mono bg-white px-2 py-1 rounded shadow-sm border border-gray-200">ops@erp.com / password123</span>
+                <span className="font-semibold text-slate-900">Operations:</span>
+                <span className="font-mono bg-white px-2 py-1 rounded-md shadow-sm border border-slate-200">ops@erp.com / password123</span>
               </div>
               <div className="flex justify-between items-center py-1">
-                <span className="font-semibold text-gray-900">Sales:</span>
-                <span className="font-mono bg-white px-2 py-1 rounded shadow-sm border border-gray-200">sales@erp.com / password123</span>
+                <span className="font-semibold text-slate-900">Sales:</span>
+                <span className="font-mono bg-white px-2 py-1 rounded-md shadow-sm border border-slate-200">sales@erp.com / password123</span>
               </div>
             </div>
           </div>

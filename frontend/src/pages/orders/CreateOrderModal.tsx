@@ -95,40 +95,40 @@ export default function CreateOrderModal({ isOpen, onClose, onSuccess }: Props) 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900 bg-opacity-50">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
-        <div className="flex justify-between items-center p-6 border-b">
-          <h2 className="text-xl font-bold text-gray-900">Create Customer Order</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-100">
+        <div className="flex justify-between items-center p-6 border-b border-slate-100 bg-slate-50/50">
+          <h2 className="text-xl font-extrabold text-slate-900">Create Customer Order</h2>
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">
             <X className="h-6 w-6" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-4">
           {error && (
-            <div className="p-3 bg-red-50 text-red-700 rounded-lg text-sm border border-red-200">
+            <div className="p-4 bg-red-50 text-red-700 rounded-xl text-sm border border-red-200 font-medium">
               {error}
             </div>
           )}
 
-          <div className="bg-yellow-50 text-yellow-800 p-3 rounded-lg text-sm mb-4">
-            <strong>Note:</strong> Creating an order does NOT reserve inventory automatically. Reservation must be explicitly triggered from the Order Details after creation.
+          <div className="bg-brand-50 border border-brand-200 text-brand-800 p-4 rounded-xl text-sm mb-4 shadow-sm font-medium">
+            <strong className="font-bold">Note:</strong> Creating an order does NOT reserve inventory automatically. Reservation must be explicitly triggered from the Order Details after creation.
           </div>
 
           <div className="space-y-4">
             <div className="flex justify-between items-end mb-2">
-              <h3 className="text-lg font-semibold text-gray-900">Order Items</h3>
+              <h3 className="text-lg font-bold text-slate-900">Order Items</h3>
             </div>
             
             {lineItems.map((li, index) => (
-              <div key={index} className="flex gap-3 items-end p-4 border border-gray-200 rounded-lg bg-gray-50">
+              <div key={index} className="flex gap-4 items-end p-5 border border-slate-200 rounded-2xl bg-slate-50/50 shadow-sm transition-all hover:shadow-md">
                 <div className="flex-1">
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Item</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">Item</label>
                   <select
                     required
                     value={li.itemId}
                     onChange={e => updateLineItem(index, 'itemId', e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500"
+                    className="w-full border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 shadow-sm transition-all"
                   >
                     <option value="">Select Item...</option>
                     {items.map(item => (
@@ -138,12 +138,12 @@ export default function CreateOrderModal({ isOpen, onClose, onSuccess }: Props) 
                 </div>
 
                 <div className="flex-1">
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Location</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">Location</label>
                   <select
                     required
                     value={li.locationId}
                     onChange={e => updateLineItem(index, 'locationId', e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500"
+                    className="w-full border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 shadow-sm transition-all"
                   >
                     <option value="">Select Location...</option>
                     {locations.map(loc => (
@@ -152,15 +152,15 @@ export default function CreateOrderModal({ isOpen, onClose, onSuccess }: Props) 
                   </select>
                 </div>
 
-                <div className="w-24">
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Quantity</label>
+                <div className="w-28">
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">Quantity</label>
                   <input
                     type="number"
                     required
                     min="1"
                     value={li.quantity}
                     onChange={e => updateLineItem(index, 'quantity', parseInt(e.target.value) || 0)}
-                    className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500"
+                    className="w-full border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 shadow-sm transition-all font-bold"
                   />
                 </div>
 
@@ -168,7 +168,7 @@ export default function CreateOrderModal({ isOpen, onClose, onSuccess }: Props) 
                   type="button"
                   onClick={() => removeLineItem(index)}
                   disabled={lineItems.length === 1}
-                  className="p-2 text-red-500 hover:bg-red-50 rounded-lg disabled:opacity-30 disabled:hover:bg-transparent"
+                  className="p-2.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-xl disabled:opacity-30 disabled:hover:bg-transparent transition-colors border border-transparent hover:border-red-100"
                 >
                   <Trash2 className="h-5 w-5" />
                 </button>
@@ -179,25 +179,25 @@ export default function CreateOrderModal({ isOpen, onClose, onSuccess }: Props) 
           <button
             type="button"
             onClick={addLineItem}
-            className="flex items-center text-sm text-yellow-600 hover:text-yellow-800 font-medium py-2"
+            className="flex items-center text-sm text-brand-600 hover:text-brand-800 font-bold py-2 px-3 bg-brand-50 hover:bg-brand-100 rounded-lg transition-colors border border-brand-100 w-fit"
           >
-            <Plus className="h-4 w-4 mr-1" />
+            <Plus className="h-4 w-4 mr-1.5" />
             Add Line Item
           </button>
         </form>
 
-        <div className="p-6 border-t bg-gray-50 flex justify-end space-x-3">
+        <div className="p-6 border-t border-slate-100 bg-slate-50/50 flex justify-end space-x-3">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 rounded-lg font-medium transition-colors"
+            className="px-5 py-2.5 text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 hover:text-slate-900 rounded-xl font-bold transition-all shadow-sm"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="px-4 py-2 text-white bg-yellow-600 hover:bg-yellow-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
+            className="px-5 py-2.5 text-slate-900 bg-brand-500 hover:bg-brand-400 rounded-xl font-bold flex items-center transition-all shadow-sm disabled:opacity-50"
           >
             {isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             Create Order

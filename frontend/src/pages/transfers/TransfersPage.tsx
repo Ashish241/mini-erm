@@ -77,9 +77,9 @@ export default function TransfersPage() {
 
   const getStatusBadge = (status: TransferStatus) => {
     switch (status) {
-      case 'REQUESTED': return <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs font-semibold">Requested</span>;
-      case 'DISPATCHED': return <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold">Dispatched</span>;
-      case 'RECEIVED': return <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Received</span>;
+      case 'REQUESTED': return <span className="bg-slate-100 text-slate-800 border border-slate-200 px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider">Requested</span>;
+      case 'DISPATCHED': return <span className="bg-brand-50 text-brand-800 border border-brand-200 px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider">Dispatched</span>;
+      case 'RECEIVED': return <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider">Received</span>;
       default: return null;
     }
   };
@@ -88,17 +88,17 @@ export default function TransfersPage() {
     <div className="space-y-6 max-w-7xl mx-auto">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center">
-            <ArrowRightLeft className="h-6 w-6 mr-2 text-yellow-600" />
+          <h1 className="text-2xl font-extrabold text-gray-900 flex items-center tracking-tight">
+            <ArrowRightLeft className="h-7 w-7 mr-3 text-brand-500" />
             Internal Transfers
           </h1>
-          <p className="text-gray-500 text-sm mt-1">Move inventory across warehouse locations.</p>
+          <p className="text-gray-500 text-sm mt-2 font-medium">Move inventory across warehouse locations.</p>
         </div>
         
         <div className="flex space-x-3">
           <button
             onClick={loadData}
-            className="px-4 py-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg font-medium flex items-center transition-colors"
+            className="px-4 py-2.5 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl font-medium flex items-center transition-all shadow-sm"
           >
             <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
             Refresh
@@ -107,7 +107,7 @@ export default function TransfersPage() {
           {canMutate && (
             <button
               onClick={() => setIsCreateOpen(true)}
-              className="px-4 py-2 bg-yellow-600 text-white hover:bg-yellow-700 rounded-lg font-medium flex items-center transition-colors shadow-sm"
+              className="px-4 py-2.5 bg-brand-500 text-slate-900 hover:bg-brand-400 rounded-xl font-bold flex items-center transition-all shadow-sm"
             >
               <Plus className="h-4 w-4 mr-2" />
               Request Transfer
@@ -117,38 +117,38 @@ export default function TransfersPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Total Transfers</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{totalTransfers}</p>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Total Transfers</p>
+          <p className="text-3xl font-extrabold text-gray-900 mt-2">{totalTransfers}</p>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Requested</p>
-          <p className="text-2xl font-bold text-gray-600 mt-1">{requestedCount}</p>
+        <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Requested</p>
+          <p className="text-3xl font-extrabold text-indigo-600 mt-2">{requestedCount}</p>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Dispatched</p>
-          <p className="text-2xl font-bold text-yellow-600 mt-1">{dispatchedCount}</p>
+        <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Dispatched</p>
+          <p className="text-3xl font-extrabold text-brand-600 mt-2">{dispatchedCount}</p>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-          <p className="text-sm font-medium text-gray-500">Received</p>
-          <p className="text-2xl font-bold text-green-600 mt-1">{receivedCount}</p>
+        <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+          <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Received</p>
+          <p className="text-3xl font-extrabold text-emerald-600 mt-2">{receivedCount}</p>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col md:flex-row gap-4">
+      <div className="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex flex-col md:flex-row gap-4">
         <input
           type="text"
           placeholder="Search by TRF# or Item..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500"
+          className="flex-1 border border-gray-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 shadow-sm transition-all"
         />
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500 w-full md:w-48"
+          className="border border-gray-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 shadow-sm transition-all w-full md:w-48"
         >
           <option value="">All Statuses</option>
           <option value="REQUESTED">Requested</option>
@@ -157,7 +157,7 @@ export default function TransfersPage() {
         </select>
         <button
           onClick={handleResetFilters}
-          className="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors"
+          className="px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl text-sm font-bold transition-colors shadow-sm"
         >
           Clear
         </button>
@@ -172,61 +172,63 @@ export default function TransfersPage() {
       )}
 
       {/* Data Table */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-gray-100">
+            <thead className="bg-gray-50/50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TRF Number</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">From Source</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">To Destination</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Qty</th>
-                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">TRF Number</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Item</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Route</th>
+                <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Qty</th>
+                <th className="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-100">
               {isLoading && transfers.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
-                    <Loader2 className="h-8 w-8 animate-spin mx-auto text-yellow-600 mb-2" />
-                    Loading transfers...
+                  <td colSpan={6} className="px-6 py-16 text-center text-gray-500">
+                    <Loader2 className="h-8 w-8 animate-spin mx-auto text-brand-500 mb-4" />
+                    <p className="font-medium text-gray-600">Loading transfers...</p>
                   </td>
                 </tr>
               ) : transfers.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
-                    No transfers found.
+                  <td colSpan={6} className="px-6 py-16 text-center text-gray-500">
+                    <ArrowRightLeft className="h-12 w-12 mx-auto text-gray-300 mb-4" />
+                    <p className="font-medium text-gray-600">No transfers found.</p>
+                    <p className="text-sm mt-1 text-gray-400">Try adjusting your filters or request a new transfer.</p>
                   </td>
                 </tr>
               ) : (
                 transfers.map((trf) => (
-                  <tr key={trf.id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={trf.id} className="hover:bg-slate-50/80 transition-colors group">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-bold text-gray-900">{trf.transferNumber}</div>
-                      <div className="text-xs text-gray-500 mt-0.5">{new Date(trf.createdAt).toLocaleDateString()}</div>
+                      <div className="text-xs text-gray-500 mt-1">{new Date(trf.createdAt).toLocaleDateString()}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">{trf.item.name}</div>
-                      <div className="text-xs text-gray-500">SKU: {trf.item.sku}</div>
+                      <div className="text-xs text-gray-500 mt-1 font-mono">SKU: {trf.item.sku}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{trf.sourceLocation.code}</div>
+                      <div className="flex items-center space-x-2 text-sm font-medium text-gray-700 bg-gray-50 inline-flex px-3 py-1.5 rounded-lg border border-gray-100">
+                        <span>{trf.sourceLocation.code}</span>
+                        <ArrowRightLeft className="h-4 w-4 text-brand-400 mx-1" />
+                        <span>{trf.destinationLocation.code}</span>
+                      </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{trf.destinationLocation.code}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right font-medium">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right font-extrabold">
                       {trf.quantity}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       {getStatusBadge(trf.status)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                       <button
                         onClick={() => setDetailsRecord(trf)}
-                        className="text-gray-600 hover:text-gray-900"
+                        className="text-gray-500 hover:text-brand-600 bg-white border border-gray-200 hover:border-brand-200 px-3 py-1.5 rounded-lg transition-all shadow-sm"
                       >
                         Details
                       </button>
@@ -234,7 +236,7 @@ export default function TransfersPage() {
                       {canMutate && trf.status === 'REQUESTED' && (
                         <button
                           onClick={() => setDispatchRecord(trf)}
-                          className="text-yellow-600 hover:text-yellow-900"
+                          className="text-slate-900 bg-brand-400 hover:bg-brand-500 px-3 py-1.5 rounded-lg transition-all shadow-sm font-bold"
                         >
                           Dispatch
                         </button>
@@ -243,7 +245,7 @@ export default function TransfersPage() {
                       {canMutate && trf.status === 'DISPATCHED' && (
                         <button
                           onClick={() => setReceiveRecord(trf)}
-                          className="text-green-600 hover:text-green-900"
+                          className="text-emerald-900 bg-emerald-400 hover:bg-emerald-500 px-3 py-1.5 rounded-lg transition-all shadow-sm font-bold"
                         >
                           Receive
                         </button>

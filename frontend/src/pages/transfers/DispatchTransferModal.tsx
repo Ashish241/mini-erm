@@ -36,25 +36,25 @@ export default function DispatchTransferModal({ transfer, onClose, onSuccess }: 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900 bg-opacity-50">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div className="flex justify-between items-center p-6 border-b bg-yellow-50">
-          <h2 className="text-xl font-bold text-yellow-900 flex items-center">
-            <Truck className="h-5 w-5 mr-2" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-100">
+        <div className="flex justify-between items-center p-6 border-b border-brand-100 bg-brand-50/50">
+          <h2 className="text-xl font-extrabold text-brand-900 flex items-center">
+            <Truck className="h-5 w-5 mr-2 text-brand-600" />
             Dispatch Transfer
           </h2>
-          <button onClick={onClose} className="text-yellow-400 hover:text-yellow-600">
+          <button onClick={onClose} className="text-brand-400 hover:text-brand-600 transition-colors">
             <X className="h-6 w-6" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          <div className="text-center text-sm text-gray-600 mb-4">
-            Are you sure you want to dispatch <strong>{transfer.transferNumber}</strong>?
+          <div className="text-center text-sm text-slate-600 mb-4 font-medium">
+            Are you sure you want to dispatch <strong className="text-slate-900 bg-slate-100 px-1 py-0.5 rounded">{transfer.transferNumber}</strong>?
           </div>
 
-          <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-lg text-sm">
-            <strong>Warning:</strong> Dispatching will immediately deduct <strong>{transfer.quantity}</strong> units of {transfer.item.name} from the source location ({transfer.sourceLocation.code}).
+          <div className="bg-brand-50 border border-brand-200 text-brand-800 p-4 rounded-xl text-sm shadow-sm font-medium">
+            <strong className="font-bold">Warning:</strong> Dispatching will immediately deduct <strong className="font-extrabold text-brand-900 bg-white px-1 rounded shadow-sm">{transfer.quantity}</strong> units of {transfer.item.name} from the source location ({transfer.sourceLocation.code}).
           </div>
 
           {error && (
@@ -63,18 +63,18 @@ export default function DispatchTransferModal({ transfer, onClose, onSuccess }: 
             </div>
           )}
 
-          <div className="pt-2 flex justify-end space-x-3">
+          <div className="pt-4 flex justify-end space-x-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors"
+              className="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-white bg-yellow-600 hover:bg-yellow-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
+              className="px-5 py-2.5 text-slate-900 bg-brand-500 hover:bg-brand-400 rounded-xl font-bold flex items-center transition-all shadow-sm disabled:opacity-50"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Confirm Dispatch
