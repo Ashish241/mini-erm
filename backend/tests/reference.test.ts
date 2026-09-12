@@ -44,6 +44,19 @@ describe('Reference Endpoints', () => {
     expect(res.body.data.categories.length).toBeGreaterThan(0);
   });
 
+  it('GET /api/reference/users returns list of assignable users', async () => {
+    const res = await request(app).get('/api/reference/users').set('Authorization', `Bearer ${token}`);
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(Array.isArray(res.body.data.users)).toBe(true);
+    expect(res.body.data.users.length).toBeGreaterThan(0);
+    expect(res.body.data.users[0]).toHaveProperty('id');
+    expect(res.body.data.users[0]).toHaveProperty('role');
+    // Ensure SALES users are not included
+    const hasSalesUser = res.body.data.users.some((u: any) => u.role === 'SALES');
+    expect(hasSalesUser).toBe(false);
+  });
+
   it('rejects unauthenticated requests', async () => {
     const res = await request(app).get('/api/reference/items');
     expect(res.status).toBe(401);

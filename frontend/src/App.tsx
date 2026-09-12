@@ -6,6 +6,7 @@ import AppLayout from './components/layout/AppLayout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import InventoryPage from './pages/inventory/InventoryPage';
+import WorkOrdersPage from './pages/work-orders/WorkOrdersPage';
 
 // Helper component to redirect authenticated users away from Login
 function PublicRoute({ children }: { children: ReactNode }) {
@@ -48,7 +49,7 @@ function App() {
             <Route element={<AppLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/inventory" element={<InventoryPage />} />
-              <Route path="/work-orders" element={<PlaceholderModule title="Work Orders" />} />
+              <Route path="/work-orders" element={<WorkOrdersPage />} />
               <Route path="/transfers" element={<PlaceholderModule title="Internal Transfers" />} />
               <Route path="/orders" element={<PlaceholderModule title="Customer Orders" />} />
             </Route>
