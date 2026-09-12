@@ -5,6 +5,7 @@ import { prisma } from './config/database';
 import authRoutes from './modules/auth/auth.routes';
 import inventoryRoutes from './modules/inventory/inventory.routes';
 import workOrderRoutes from './modules/work-orders/workOrder.routes';
+import transferRoutes from './modules/transfers/transfer.routes';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/work-orders', workOrderRoutes);
+app.use('/api/transfers', transferRoutes);
 
 // ─── Health check ──────────────────────────────────────────────────────────
 app.get('/health', async (req: Request, res: Response) => {
