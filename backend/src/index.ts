@@ -15,7 +15,9 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || '*'
+}));
 app.use(express.json());
 
 // ─── Routes ────────────────────────────────────────────────────────────────
@@ -27,7 +29,10 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/reference', referenceRoutes);
 
 // ─── Swagger Documentation ───────────────────────────────────────────────────
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.get('/api-docs.json', (req: Request, res: Response) => {
+  res.json(swaggerDocument);
+});
 
 // ─── Health check ──────────────────────────────────────────────────────────
 app.get('/health', async (req: Request, res: Response) => {
@@ -52,6 +57,15 @@ app.get('/health', async (req: Request, res: Response) => {
 // ─── 404 handler ───────────────────────────────────────────────────────────
 app.use((req: Request, res: Response) => {
   res.status(404).json({ success: false, message: 'Route not found' });
+});
+
+// ─── Global Error Handler ──────────────────────────────────────────────────
+app.use((err: any, req: Request, res: Response, next: express.NextFunction) => {
+  console.error('Unhandled error:', err);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Internal server error.',
+  });
 });
 
 export { app };

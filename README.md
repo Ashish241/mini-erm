@@ -27,7 +27,7 @@ Inventory → Work Order → Material Stock Check → Internal Transfer/Shortage
    npx prisma db seed
    ```
 6. Run `npm run dev` from the root to start both frontend and backend development servers.
-7. Access the **API Documentation (Swagger UI)** at `http://localhost:3000/api/docs`.
+7. Access the **API Documentation (Swagger UI)** at `http://localhost:3000/api-docs`.
 
 ## Customer Orders & Stock Reservation
 
@@ -59,3 +59,40 @@ All endpoints enforce JWT Authentication.
 - `PATCH /api/orders/:id/reserve` (ADMIN, SALES): Lock and reserve stock.
 - `PATCH /api/orders/:id/cancel` (ADMIN, SALES): Release reserved stock.
 - `PATCH /api/orders/:id/complete` (ADMIN, SALES): Finalize order, deduct physical inventory.
+
+## Deployment
+
+To deploy the backend to a production environment (like Render, Heroku, or AWS):
+
+1. **Environment Variables**:
+   Set the following variables in your production environment:
+   - `DATABASE_URL`: Your PostgreSQL connection string.
+   - `JWT_SECRET`: A secure, random string for signing tokens.
+   - `JWT_EXPIRES_IN`: (Optional) Token expiration time (e.g., `8h`).
+   - `PORT`: Automatically provided by the hosting platform, or specify your own.
+   - `FRONTEND_URL`: (Optional) The URL of your deployed frontend to properly restrict CORS (defaults to `*`).
+
+2. **Build the Backend**:
+   Run the TypeScript compiler to generate the `/dist` output:
+   ```bash
+   npm run build
+   ```
+
+3. **Database Migration**:
+   Run the database schema migrations against your production database:
+   ```bash
+   npx prisma migrate deploy
+   ```
+
+4. **Start the Server**:
+   Start the compiled Node.js application:
+   ```bash
+   npm run start
+   # (Which executes: node dist/index.js)
+   ```
+
+5. **API Documentation**:
+   Once deployed, the interactive API documentation is publicly available at:
+   - **Swagger UI**: `https://<your-backend-domain>/api-docs`
+   - **OpenAPI JSON**: `https://<your-backend-domain>/api-docs.json`
+
