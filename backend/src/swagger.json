@@ -1,0 +1,454 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Mini Operations ERP API",
+    "description": "API documentation for the Mini Operations ERP system.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean", "example": false },
+          "message": { "type": "string" },
+          "errors": { "type": "object" }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login to the ERP",
+        "tags": ["Authentication"],
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": { "type": "string", "format": "email", "example": "admin@erp.com" },
+                  "password": { "type": "string", "example": "password123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token": { "type": "string" },
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "name": { "type": "string" },
+                            "email": { "type": "string" },
+                            "role": { "type": "string" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "summary": "Get current user profile",
+        "tags": ["Authentication"],
+        "responses": {
+          "200": {
+            "description": "Returns current authenticated user details"
+          },
+          "401": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/inventory": {
+      "get": {
+        "summary": "List inventory records",
+        "tags": ["Inventory"],
+        "parameters": [
+          { "in": "query", "name": "itemId", "schema": { "type": "string" } },
+          { "in": "query", "name": "locationId", "schema": { "type": "string" } },
+          { "in": "query", "name": "search", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Returns list of inventory records with availability calculation" }
+        }
+      },
+      "post": {
+        "summary": "Create new inventory record",
+        "tags": ["Inventory"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["itemId", "locationId", "physicalQuantity"],
+                "properties": {
+                  "itemId": { "type": "string" },
+                  "locationId": { "type": "string" },
+                  "batchId": { "type": "string", "nullable": true },
+                  "physicalQuantity": { "type": "integer", "minimum": 0 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Inventory record created" },
+          "400": { "$ref": "#/components/schemas/ErrorResponse" },
+          "403": { "$ref": "#/components/schemas/ErrorResponse" },
+          "409": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/inventory/{id}": {
+      "get": {
+        "summary": "Get specific inventory record details",
+        "tags": ["Inventory"],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Returns inventory details" },
+          "404": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/inventory/{id}/adjust": {
+      "patch": {
+        "summary": "Adjust physical stock quantity",
+        "tags": ["Inventory"],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["quantityChange"],
+                "properties": {
+                  "quantityChange": { "type": "integer", "description": "Positive to add stock, negative to reduce" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Stock adjusted successfully" },
+          "400": { "$ref": "#/components/schemas/ErrorResponse" },
+          "403": { "$ref": "#/components/schemas/ErrorResponse" },
+          "409": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/inventory/{id}/transactions": {
+      "get": {
+        "summary": "Get transaction audit history for an inventory record",
+        "tags": ["Inventory"],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Returns array of transactions" }
+        }
+      }
+    },
+    "/api/work-orders": {
+      "get": {
+        "summary": "List work orders",
+        "tags": ["Work Orders"],
+        "parameters": [
+          { "in": "query", "name": "status", "schema": { "type": "string", "enum": ["ASSIGNED", "IN_PROGRESS", "COMPLETED"] } }
+        ],
+        "responses": {
+          "200": { "description": "List of work orders" }
+        }
+      },
+      "post": {
+        "summary": "Create a work order",
+        "tags": ["Work Orders"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["itemId", "locationId", "requiredQuantity"],
+                "properties": {
+                  "itemId": { "type": "string" },
+                  "locationId": { "type": "string" },
+                  "requiredQuantity": { "type": "integer", "minimum": 1 },
+                  "assignedUserId": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Work order created" },
+          "400": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/work-orders/{id}": {
+      "get": {
+        "summary": "Get work order details",
+        "tags": ["Work Orders"],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Work order details, including calculated material shortage" },
+          "404": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/work-orders/{id}/status": {
+      "patch": {
+        "summary": "Update work order status",
+        "tags": ["Work Orders"],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["status"],
+                "properties": {
+                  "status": { "type": "string", "enum": ["IN_PROGRESS", "COMPLETED"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Status updated" },
+          "400": { "$ref": "#/components/schemas/ErrorResponse" },
+          "409": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/transfers": {
+      "get": {
+        "summary": "List internal transfers",
+        "tags": ["Internal Transfers"],
+        "parameters": [
+          { "in": "query", "name": "status", "schema": { "type": "string", "enum": ["REQUESTED", "DISPATCHED", "RECEIVED"] } }
+        ],
+        "responses": {
+          "200": { "description": "List of transfers" }
+        }
+      },
+      "post": {
+        "summary": "Create an internal transfer",
+        "tags": ["Internal Transfers"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["sourceLocationId", "destinationLocationId", "itemId", "quantity"],
+                "properties": {
+                  "sourceLocationId": { "type": "string" },
+                  "destinationLocationId": { "type": "string" },
+                  "itemId": { "type": "string" },
+                  "quantity": { "type": "integer", "minimum": 1 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Transfer created" },
+          "400": { "$ref": "#/components/schemas/ErrorResponse" },
+          "409": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/transfers/{id}": {
+      "get": {
+        "summary": "Get transfer details",
+        "tags": ["Internal Transfers"],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Transfer details" },
+          "404": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/transfers/{id}/dispatch": {
+      "patch": {
+        "summary": "Dispatch a transfer",
+        "tags": ["Internal Transfers"],
+        "description": "Deducts physical stock from the source location and updates status to DISPATCHED.",
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Transfer dispatched" },
+          "409": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/transfers/{id}/receive": {
+      "patch": {
+        "summary": "Receive a transfer",
+        "tags": ["Internal Transfers"],
+        "description": "Adds physical stock to the destination location and updates status to RECEIVED.",
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Transfer received" },
+          "409": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/orders": {
+      "get": {
+        "summary": "List customer orders",
+        "tags": ["Customer Orders"],
+        "responses": {
+          "200": { "description": "List of customer orders" }
+        }
+      },
+      "post": {
+        "summary": "Create a customer order",
+        "tags": ["Customer Orders"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["items"],
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["itemId", "locationId", "quantity"],
+                      "properties": {
+                        "itemId": { "type": "string" },
+                        "locationId": { "type": "string" },
+                        "quantity": { "type": "integer", "minimum": 1 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Order created in CREATED state" },
+          "400": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/orders/{id}": {
+      "get": {
+        "summary": "Get customer order details",
+        "tags": ["Customer Orders"],
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Order details" },
+          "404": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/orders/{id}/reserve": {
+      "patch": {
+        "summary": "Reserve stock for an order",
+        "tags": ["Customer Orders"],
+        "description": "Atomically locks inventory rows, checks availability, and reserves required stock.",
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Stock reserved successfully" },
+          "409": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/orders/{id}/cancel": {
+      "patch": {
+        "summary": "Cancel a reserved order",
+        "tags": ["Customer Orders"],
+        "description": "Releases exact quantities reserved by this order back to available stock.",
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Order cancelled and stock released" },
+          "409": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    },
+    "/api/orders/{id}/complete": {
+      "patch": {
+        "summary": "Complete an order",
+        "tags": ["Customer Orders"],
+        "description": "Finalizes the order by consuming the physical stock that was reserved.",
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string", "format": "uuid" } }
+        ],
+        "responses": {
+          "200": { "description": "Order completed and stock consumed" },
+          "409": { "$ref": "#/components/schemas/ErrorResponse" }
+        }
+      }
+    }
+  }
+}

@@ -27,6 +27,7 @@ Inventory → Work Order → Material Stock Check → Internal Transfer/Shortage
    npx prisma db seed
    ```
 6. Run `npm run dev` from the root to start both frontend and backend development servers.
+7. Access the **API Documentation (Swagger UI)** at `http://localhost:3000/api/docs`.
 
 ## Customer Orders & Stock Reservation
 
