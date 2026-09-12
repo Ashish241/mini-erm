@@ -55,4 +55,11 @@ export const createWorkOrder = (data: any) => api.post('/api/work-orders', data)
 export const updateWorkOrderStatus = (id: string, data: any) => api.patch(`/api/work-orders/${id}/status`, data).then(res => res.data.data.workOrder);
 export const checkWorkOrderStock = (id: string) => api.get(`/api/work-orders/${id}/stock-check`).then(res => res.data.data);
 
+// Transfers
+export const fetchTransfers = (params?: any) => api.get('/api/transfers', { params }).then(res => res.data.data.transfers);
+export const createTransfer = (data: any) => api.post('/api/transfers', data).then(res => res.data.data.transfer);
+export const dispatchTransfer = (id: string) => api.patch(`/api/transfers/${id}/dispatch`).then(res => res.data.data.transfer);
+export const receiveTransfer = (id: string) => api.patch(`/api/transfers/${id}/receive`).then(res => res.data.data.transfer);
+
+
 
