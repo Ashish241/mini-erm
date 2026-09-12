@@ -101,6 +101,33 @@
         }
       }
     },
+    "/api/reference/items": {
+      "get": {
+        "summary": "Get reference list of items",
+        "tags": ["Reference"],
+        "responses": {
+          "200": { "description": "Returns list of items" }
+        }
+      }
+    },
+    "/api/reference/locations": {
+      "get": {
+        "summary": "Get reference list of locations",
+        "tags": ["Reference"],
+        "responses": {
+          "200": { "description": "Returns list of locations" }
+        }
+      }
+    },
+    "/api/reference/categories": {
+      "get": {
+        "summary": "Get reference list of categories",
+        "tags": ["Reference"],
+        "responses": {
+          "200": { "description": "Returns list of categories" }
+        }
+      }
+    },
     "/api/inventory": {
       "get": {
         "summary": "List inventory records",

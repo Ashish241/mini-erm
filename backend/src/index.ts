@@ -7,6 +7,7 @@ import inventoryRoutes from './modules/inventory/inventory.routes';
 import workOrderRoutes from './modules/work-orders/workOrder.routes';
 import transferRoutes from './modules/transfers/transfer.routes';
 import orderRoutes from './modules/orders/order.routes';
+import referenceRoutes from './modules/reference/reference.routes';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger.json';
 
@@ -23,6 +24,7 @@ app.use('/api/inventory', inventoryRoutes);
 app.use('/api/work-orders', workOrderRoutes);
 app.use('/api/transfers', transferRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/reference', referenceRoutes);
 
 // ─── Swagger Documentation ───────────────────────────────────────────────────
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

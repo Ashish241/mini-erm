@@ -34,3 +34,17 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// ─── API Services ────────────────────────────────────────────────────────────
+
+// Reference Data
+export const fetchItems = () => api.get('/api/reference/items').then(res => res.data.data.items);
+export const fetchLocations = () => api.get('/api/reference/locations').then(res => res.data.data.locations);
+export const fetchCategories = () => api.get('/api/reference/categories').then(res => res.data.data.categories);
+
+// Inventory
+export const fetchInventory = (params?: any) => api.get('/api/inventory', { params }).then(res => res.data.data.inventory);
+export const createInventoryRecord = (data: any) => api.post('/api/inventory', data).then(res => res.data.data.inventory);
+export const adjustStock = (id: string, data: any) => api.patch(`/api/inventory/${id}/adjust`, data).then(res => res.data.data.inventory);
+export const fetchInventoryTransactions = (id: string) => api.get(`/api/inventory/${id}/transactions`).then(res => res.data.data.transactions);
+
