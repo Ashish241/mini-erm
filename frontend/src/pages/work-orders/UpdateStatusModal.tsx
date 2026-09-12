@@ -64,7 +64,7 @@ export default function UpdateStatusModal({ workOrder, onClose, onSuccess }: Pro
   const getStatusColor = (s: WorkOrderStatus) => {
     switch (s) {
       case 'ASSIGNED': return 'bg-gray-100 text-gray-800';
-      case 'IN_PROGRESS': return 'bg-blue-100 text-blue-800';
+      case 'IN_PROGRESS': return 'bg-yellow-100 text-yellow-800';
       case 'COMPLETED': return 'bg-green-100 text-green-800';
       default: return 'bg-gray-100 text-gray-800';
     }
@@ -112,7 +112,7 @@ export default function UpdateStatusModal({ workOrder, onClose, onSuccess }: Pro
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
+              className="px-4 py-2 text-white bg-yellow-600 hover:bg-yellow-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Confirm Transition

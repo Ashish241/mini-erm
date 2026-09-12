@@ -68,7 +68,7 @@ export default function CustomerOrdersPage() {
   const getStatusBadge = (status: OrderStatus) => {
     switch (status) {
       case 'CREATED': return <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs font-semibold">Created</span>;
-      case 'RESERVED': return <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold">Reserved</span>;
+      case 'RESERVED': return <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold">Reserved</span>;
       case 'COMPLETED': return <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Completed</span>;
       case 'CANCELLED': return <span className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-semibold">Cancelled</span>;
       default: return null;
@@ -80,7 +80,7 @@ export default function CustomerOrdersPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center">
-            <ShoppingCart className="h-6 w-6 mr-2 text-blue-600" />
+            <ShoppingCart className="h-6 w-6 mr-2 text-yellow-600" />
             Customer Orders
           </h1>
           <p className="text-gray-500 text-sm mt-1">Manage external orders and inventory reservation.</p>
@@ -98,7 +98,7 @@ export default function CustomerOrdersPage() {
           {canCreate && (
             <button
               onClick={() => setIsCreateOpen(true)}
-              className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg font-medium flex items-center transition-colors shadow-sm"
+              className="px-4 py-2 bg-yellow-600 text-white hover:bg-yellow-700 rounded-lg font-medium flex items-center transition-colors shadow-sm"
             >
               <Plus className="h-4 w-4 mr-2" />
               Create Order
@@ -119,7 +119,7 @@ export default function CustomerOrdersPage() {
         </div>
         <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
           <p className="text-sm font-medium text-gray-500">Reserved</p>
-          <p className="text-2xl font-bold text-blue-600 mt-1">{reservedCount}</p>
+          <p className="text-2xl font-bold text-yellow-600 mt-1">{reservedCount}</p>
         </div>
         <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
           <p className="text-sm font-medium text-gray-500">Completed</p>
@@ -138,12 +138,12 @@ export default function CustomerOrdersPage() {
           placeholder="Search by Order# or Sales Rep..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 border border-gray-300 rounded-lg p-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+          className="flex-1 border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500"
         />
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="border border-gray-300 rounded-lg p-2 text-sm focus:ring-blue-500 focus:border-blue-500 w-full md:w-48"
+          className="border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500 w-full md:w-48"
         >
           <option value="">All Statuses</option>
           <option value="CREATED">Created</option>
@@ -185,7 +185,7 @@ export default function CustomerOrdersPage() {
               {isLoading && orders.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
-                    <Loader2 className="h-8 w-8 animate-spin mx-auto text-blue-600 mb-2" />
+                    <Loader2 className="h-8 w-8 animate-spin mx-auto text-yellow-600 mb-2" />
                     Loading orders...
                   </td>
                 </tr>
@@ -222,7 +222,7 @@ export default function CustomerOrdersPage() {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button
                           onClick={() => setDetailsRecord(order)}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="text-yellow-600 hover:text-yellow-900"
                         >
                           View Details
                         </button>

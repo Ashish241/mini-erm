@@ -24,7 +24,7 @@ export default function TransferDetailsModal({ transfer, onClose }: Props) {
 
         <div className="p-6 space-y-6">
           {transfer.status === 'DISPATCHED' && (
-            <div className="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-lg text-sm">
+            <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-lg text-sm">
               <strong>Note:</strong> Source stock has been deducted. Destination stock will be added only after this transfer is formally received.
             </div>
           )}

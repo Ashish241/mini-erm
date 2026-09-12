@@ -97,7 +97,7 @@ export default function CreateWorkOrderModal({ isOpen, onClose, onSuccess }: Pro
               required
               value={itemId}
               onChange={e => setItemId(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-yellow-500 focus:border-yellow-500"
             >
               <option value="">Select Item...</option>
               {items.map(item => (
@@ -112,7 +112,7 @@ export default function CreateWorkOrderModal({ isOpen, onClose, onSuccess }: Pro
               required
               value={locationId}
               onChange={e => setLocationId(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-yellow-500 focus:border-yellow-500"
             >
               <option value="">Select Location...</option>
               {locations.map(loc => (
@@ -129,7 +129,7 @@ export default function CreateWorkOrderModal({ isOpen, onClose, onSuccess }: Pro
               min="1"
               value={requiredQuantity}
               onChange={e => setRequiredQuantity(parseInt(e.target.value) || 0)}
-              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-yellow-500 focus:border-yellow-500"
             />
           </div>
 
@@ -138,7 +138,7 @@ export default function CreateWorkOrderModal({ isOpen, onClose, onSuccess }: Pro
             <select
               value={assignedUserId}
               onChange={e => setAssignedUserId(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-yellow-500 focus:border-yellow-500"
             >
               <option value="">Unassigned</option>
               {users.map(u => (
@@ -158,7 +158,7 @@ export default function CreateWorkOrderModal({ isOpen, onClose, onSuccess }: Pro
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
+              className="px-4 py-2 text-white bg-yellow-600 hover:bg-yellow-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Create Work Order

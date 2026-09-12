@@ -56,7 +56,7 @@ export default function AppLayout() {
         }`}
       >
         <div className="h-16 flex items-center px-6 bg-gray-950 flex-shrink-0">
-          <Boxes className="h-8 w-8 text-blue-500 mr-3" />
+          <Boxes className="h-8 w-8 text-yellow-500 mr-3" />
           <span className="text-lg font-bold tracking-tight">Mini ERP</span>
           <button 
             className="ml-auto lg:hidden text-gray-400 hover:text-white"
@@ -77,7 +77,7 @@ export default function AppLayout() {
                 className={({ isActive }) =>
                   `flex items-center px-4 py-3 rounded-lg transition-colors font-medium ${
                     isActive 
-                      ? 'bg-blue-600 text-white' 
+                      ? 'bg-yellow-600 text-white' 
                       : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                   }`
                 }
@@ -118,7 +118,7 @@ export default function AppLayout() {
               <p className="text-sm font-semibold text-gray-900">{user?.name}</p>
               <p className="text-xs text-gray-500">{user?.role}</p>
             </div>
-            <div className="h-9 w-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold border border-blue-200">
+            <div className="h-9 w-9 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-700 font-bold border border-yellow-200">
               {user?.name?.charAt(0).toUpperCase() || 'U'}
             </div>
           </div>

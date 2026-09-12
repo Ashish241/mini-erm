@@ -14,7 +14,7 @@ export default function Dashboard() {
   const getRoleColor = (role: string) => {
     switch (role) {
       case 'ADMIN': return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'OPERATIONS': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'OPERATIONS': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       case 'SALES': return 'bg-green-100 text-green-800 border-green-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
@@ -42,7 +42,7 @@ export default function Dashboard() {
       {/* Module Overview Placeholders */}
       <div>
         <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-          <Activity className="h-5 w-5 mr-2 text-blue-600" />
+          <Activity className="h-5 w-5 mr-2 text-yellow-600" />
           System Overview
         </h2>
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-lg">
@@ -66,8 +66,8 @@ export default function Dashboard() {
                   <p className="text-sm font-medium text-gray-500">Total Inventory</p>
                   <p className="text-2xl font-bold text-gray-900 mt-1">--</p>
                 </div>
-                <div className="p-3 bg-blue-50 rounded-lg">
-                  <Package className="h-6 w-6 text-blue-600" />
+                <div className="p-3 bg-yellow-50 rounded-lg">
+                  <Package className="h-6 w-6 text-yellow-600" />
                 </div>
               </div>
               <p className="text-xs text-gray-400 mt-4">Data unavailable (Placeholder)</p>
@@ -96,8 +96,8 @@ export default function Dashboard() {
                   <p className="text-sm font-medium text-gray-500">Pending Transfers</p>
                   <p className="text-2xl font-bold text-gray-900 mt-1">--</p>
                 </div>
-                <div className="p-3 bg-indigo-50 rounded-lg">
-                  <ArrowRightLeft className="h-6 w-6 text-indigo-600" />
+                <div className="p-3 bg-yellow-50 rounded-lg">
+                  <ArrowRightLeft className="h-6 w-6 text-yellow-600" />
                 </div>
               </div>
               <p className="text-xs text-gray-400 mt-4">Data unavailable (Placeholder)</p>

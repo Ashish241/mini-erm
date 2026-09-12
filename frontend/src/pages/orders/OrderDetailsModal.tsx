@@ -57,7 +57,7 @@ export default function OrderDetailsModal({ order, onClose, onSuccess }: Props) 
         <div className="flex justify-between items-center p-6 border-b bg-gray-50">
           <div>
             <h2 className="text-xl font-bold text-gray-900 flex items-center">
-              <ShoppingCart className="h-5 w-5 mr-2 text-blue-600" />
+              <ShoppingCart className="h-5 w-5 mr-2 text-yellow-600" />
               Order Details
             </h2>
             <p className="text-sm text-gray-500 mt-1">{order.orderNumber}</p>
@@ -82,25 +82,25 @@ export default function OrderDetailsModal({ order, onClose, onSuccess }: Props) 
 
           {/* Action Confirmations */}
           {confirmMode === 'RESERVE' && (
-            <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-              <h3 className="font-bold text-blue-900 flex items-center mb-2">
+            <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+              <h3 className="font-bold text-yellow-900 flex items-center mb-2">
                 <Lock className="h-5 w-5 mr-2" />
                 Confirm Stock Reservation
               </h3>
-              <p className="text-sm text-blue-800 mb-4">
+              <p className="text-sm text-yellow-800 mb-4">
                 Reservation checks and locks inventory in a database transaction. If stock is insufficient for ANY line item, the entire reservation will fail (all-or-nothing).
               </p>
               <div className="flex space-x-3">
                 <button
                   onClick={() => setConfirmMode(null)}
-                  className="px-3 py-1.5 text-blue-700 bg-blue-100 hover:bg-blue-200 rounded text-sm font-medium transition-colors"
+                  className="px-3 py-1.5 text-yellow-700 bg-yellow-100 hover:bg-yellow-200 rounded text-sm font-medium transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => handleAction(reserveOrder, 'RESERVED')}
                   disabled={isSubmitting}
-                  className="px-3 py-1.5 text-white bg-blue-600 hover:bg-blue-700 rounded text-sm font-medium flex items-center transition-colors disabled:opacity-50"
+                  className="px-3 py-1.5 text-white bg-yellow-600 hover:bg-yellow-700 rounded text-sm font-medium flex items-center transition-colors disabled:opacity-50"
                 >
                   {isSubmitting ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}
                   Reserve Stock Now
@@ -246,7 +246,7 @@ export default function OrderDetailsModal({ order, onClose, onSuccess }: Props) 
             {canMutate && order.status === 'CREATED' && !confirmMode && (
               <button
                 onClick={() => setConfirmMode('RESERVE')}
-                className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors"
+                className="px-4 py-2 text-white bg-yellow-600 hover:bg-yellow-700 rounded-lg font-medium transition-colors"
               >
                 Reserve Stock
               </button>

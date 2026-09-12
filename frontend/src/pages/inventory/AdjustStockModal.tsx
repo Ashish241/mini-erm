@@ -86,16 +86,16 @@ export default function AdjustStockModal({ record, onClose, onSuccess }: Props) 
               required
               value={quantityChange}
               onChange={e => setQuantityChange(parseInt(e.target.value) || 0)}
-              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-yellow-500 focus:border-yellow-500"
             />
             <p className="text-xs text-gray-500 mt-1">
               Use positive numbers to add stock, negative to remove stock.
             </p>
           </div>
 
-          <div className="p-3 bg-blue-50 border border-blue-100 rounded-lg text-sm">
-            <p className="text-blue-800 font-medium mb-1">Projected Stock:</p>
-            <div className="flex justify-between text-blue-900">
+          <div className="p-3 bg-yellow-50 border border-yellow-100 rounded-lg text-sm">
+            <p className="text-yellow-800 font-medium mb-1">Projected Stock:</p>
+            <div className="flex justify-between text-yellow-900">
               <span>New Physical: {newPhysical}</span>
               <span>New Available: {newAvailable}</span>
             </div>
@@ -110,7 +110,7 @@ export default function AdjustStockModal({ record, onClose, onSuccess }: Props) 
               placeholder="e.g. Audit correction, damage"
               value={reason}
               onChange={e => setReason(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-yellow-500 focus:border-yellow-500"
             />
           </div>
 
@@ -125,7 +125,7 @@ export default function AdjustStockModal({ record, onClose, onSuccess }: Props) 
             <button
               type="submit"
               disabled={isSubmitting || quantityChange === 0}
-              className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
+              className="px-4 py-2 text-white bg-yellow-600 hover:bg-yellow-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Confirm Adjustment

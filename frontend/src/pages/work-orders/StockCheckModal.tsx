@@ -45,7 +45,7 @@ export default function StockCheckModal({ workOrder, onClose }: Props) {
         <div className="p-6">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-12 text-gray-500">
-              <Loader2 className="h-8 w-8 animate-spin mb-4 text-blue-600" />
+              <Loader2 className="h-8 w-8 animate-spin mb-4 text-yellow-600" />
               <p>Checking inventory levels...</p>
             </div>
           ) : error ? (

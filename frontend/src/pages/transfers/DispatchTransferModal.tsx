@@ -38,12 +38,12 @@ export default function DispatchTransferModal({ transfer, onClose, onSuccess }: 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900 bg-opacity-50">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div className="flex justify-between items-center p-6 border-b bg-blue-50">
-          <h2 className="text-xl font-bold text-blue-900 flex items-center">
+        <div className="flex justify-between items-center p-6 border-b bg-yellow-50">
+          <h2 className="text-xl font-bold text-yellow-900 flex items-center">
             <Truck className="h-5 w-5 mr-2" />
             Dispatch Transfer
           </h2>
-          <button onClick={onClose} className="text-blue-400 hover:text-blue-600">
+          <button onClick={onClose} className="text-yellow-400 hover:text-yellow-600">
             <X className="h-6 w-6" />
           </button>
         </div>
@@ -74,7 +74,7 @@ export default function DispatchTransferModal({ transfer, onClose, onSuccess }: 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
+              className="px-4 py-2 text-white bg-yellow-600 hover:bg-yellow-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
             >
               {isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
               Confirm Dispatch

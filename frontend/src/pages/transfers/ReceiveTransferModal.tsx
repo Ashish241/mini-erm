@@ -53,7 +53,7 @@ export default function ReceiveTransferModal({ transfer, onClose, onSuccess }: P
             Are you sure you want to receive <strong>{transfer.transferNumber}</strong>?
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-lg text-sm">
+          <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-lg text-sm">
             <strong>Action:</strong> This will add <strong>{transfer.quantity}</strong> units of {transfer.item.name} to the destination location ({transfer.destinationLocation.code}) and mark the transfer as COMPLETED.
           </div>
 

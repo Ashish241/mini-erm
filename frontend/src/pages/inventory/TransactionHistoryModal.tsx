@@ -41,7 +41,7 @@ export default function TransactionHistoryModal({ inventoryId, onClose }: Props)
         <div className="p-6 overflow-y-auto flex-1">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-12 text-gray-500">
-              <Loader2 className="h-8 w-8 animate-spin mb-4 text-blue-600" />
+              <Loader2 className="h-8 w-8 animate-spin mb-4 text-yellow-600" />
               <p>Loading history...</p>
             </div>
           ) : error ? (
@@ -74,7 +74,7 @@ export default function TransactionHistoryModal({ inventoryId, onClose }: Props)
                         <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                           ['INBOUND', 'RELEASE'].includes(tx.type) ? 'bg-green-100 text-green-800' :
                           ['OUTBOUND', 'RESERVATION'].includes(tx.type) ? 'bg-red-100 text-red-800' :
-                          'bg-blue-100 text-blue-800'
+                          'bg-yellow-100 text-yellow-800'
                         }`}>
                           {tx.type}
                         </span>

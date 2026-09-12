@@ -111,7 +111,7 @@ export default function CreateOrderModal({ isOpen, onClose, onSuccess }: Props) 
             </div>
           )}
 
-          <div className="bg-blue-50 text-blue-800 p-3 rounded-lg text-sm mb-4">
+          <div className="bg-yellow-50 text-yellow-800 p-3 rounded-lg text-sm mb-4">
             <strong>Note:</strong> Creating an order does NOT reserve inventory automatically. Reservation must be explicitly triggered from the Order Details after creation.
           </div>
 
@@ -128,7 +128,7 @@ export default function CreateOrderModal({ isOpen, onClose, onSuccess }: Props) 
                     required
                     value={li.itemId}
                     onChange={e => updateLineItem(index, 'itemId', e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500"
                   >
                     <option value="">Select Item...</option>
                     {items.map(item => (
@@ -143,7 +143,7 @@ export default function CreateOrderModal({ isOpen, onClose, onSuccess }: Props) 
                     required
                     value={li.locationId}
                     onChange={e => updateLineItem(index, 'locationId', e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500"
                   >
                     <option value="">Select Location...</option>
                     {locations.map(loc => (
@@ -160,7 +160,7 @@ export default function CreateOrderModal({ isOpen, onClose, onSuccess }: Props) 
                     min="1"
                     value={li.quantity}
                     onChange={e => updateLineItem(index, 'quantity', parseInt(e.target.value) || 0)}
-                    className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-yellow-500 focus:border-yellow-500"
                   />
                 </div>
 
@@ -179,7 +179,7 @@ export default function CreateOrderModal({ isOpen, onClose, onSuccess }: Props) 
           <button
             type="button"
             onClick={addLineItem}
-            className="flex items-center text-sm text-blue-600 hover:text-blue-800 font-medium py-2"
+            className="flex items-center text-sm text-yellow-600 hover:text-yellow-800 font-medium py-2"
           >
             <Plus className="h-4 w-4 mr-1" />
             Add Line Item
@@ -197,7 +197,7 @@ export default function CreateOrderModal({ isOpen, onClose, onSuccess }: Props) 
           <button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
+            className="px-4 py-2 text-white bg-yellow-600 hover:bg-yellow-700 rounded-lg font-medium flex items-center transition-colors disabled:opacity-50"
           >
             {isSubmitting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             Create Order
