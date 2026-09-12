@@ -61,5 +61,14 @@ export const createTransfer = (data: any) => api.post('/api/transfers', data).th
 export const dispatchTransfer = (id: string) => api.patch(`/api/transfers/${id}/dispatch`).then(res => res.data.data.transfer);
 export const receiveTransfer = (id: string) => api.patch(`/api/transfers/${id}/receive`).then(res => res.data.data.transfer);
 
+// Customer Orders
+export const fetchOrders = (params?: any) => api.get('/api/orders', { params }).then(res => res.data.data.orders);
+export const fetchOrderById = (id: string) => api.get(`/api/orders/${id}`).then(res => res.data.data.order);
+export const createOrder = (data: any) => api.post('/api/orders', data).then(res => res.data.data.order);
+export const reserveOrder = (id: string) => api.patch(`/api/orders/${id}/reserve`).then(res => res.data.data.order);
+export const completeOrder = (id: string) => api.patch(`/api/orders/${id}/complete`).then(res => res.data.data.order);
+export const cancelOrder = (id: string) => api.patch(`/api/orders/${id}/cancel`).then(res => res.data.data.order);
+
+
 
 

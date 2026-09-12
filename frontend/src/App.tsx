@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import InventoryPage from './pages/inventory/InventoryPage';
 import WorkOrdersPage from './pages/work-orders/WorkOrdersPage';
 import TransfersPage from './pages/transfers/TransfersPage';
+import CustomerOrdersPage from './pages/orders/CustomerOrdersPage';
 
 // Helper component to redirect authenticated users away from Login
 function PublicRoute({ children }: { children: ReactNode }) {
@@ -17,15 +18,6 @@ function PublicRoute({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-// Placeholder for unbuilt modules
-function PlaceholderModule({ title }: { title: string }) {
-  return (
-    <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center h-96">
-      <h2 className="text-2xl font-bold text-gray-900 mb-2">{title}</h2>
-      <p className="text-gray-500">This module is scheduled for implementation in Phase 2.</p>
-    </div>
-  );
-}
 
 function App() {
   return (
@@ -52,7 +44,7 @@ function App() {
               <Route path="/inventory" element={<InventoryPage />} />
               <Route path="/work-orders" element={<WorkOrdersPage />} />
               <Route path="/transfers" element={<TransfersPage />} />
-              <Route path="/orders" element={<PlaceholderModule title="Customer Orders" />} />
+              <Route path="/orders" element={<CustomerOrdersPage />} />
             </Route>
           </Route>
 
